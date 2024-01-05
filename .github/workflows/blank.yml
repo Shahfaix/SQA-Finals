@@ -1,0 +1,37 @@
+name: postman
+
+on: [push]
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ['16','18']
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.version}}
+
+      - run: npm install newman
+      - run: mkdir -p testResults 
+      - run: run newman postman_test/Books.postman_collection.json -e postman_tests/test.postman_environment.json
+      - uses: actions/upload-artifact@v
+        with:
+         name: testResults
+
+
+
+
+
+
+
+
+      
+
+       
+
+
+
+        
